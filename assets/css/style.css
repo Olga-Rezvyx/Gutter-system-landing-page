@@ -203,7 +203,11 @@ a { color: inherit; }
 .quiz__tick { height: 3px; flex: 1; background: var(--line-on-ink); }
 .quiz__tick[data-done] { background: var(--accent); }
 
+/* fieldset несёт браузерную рамку и отступы — снимаем, легенду ставим
+   обычным блоком, иначе она врезается в рамку вырезом. */
+.quiz__step { border: 0; margin: 0; padding: 0; min-width: 0; }
 .quiz__step[hidden] { display: none; }
+.quiz__q { display: block; width: 100%; padding: 0; }
 .quiz__q { font-size: 27px; font-weight: 600; letter-spacing: -.02em; }
 .quiz__hint { margin: 12px 0 0; font-size: 16px; color: var(--text-on-ink-dim); }
 .quiz__options { display: grid; gap: 10px; margin: 26px 0 0; }

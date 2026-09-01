@@ -1,0 +1,4 @@
+# Кадры героя: генерятся из исходника, в репозиторий не кладутся.
+# Заглушки — tools/make_placeholder_frames.py, итоговые — через Higgsfield.
+assets/frames/*.jpg
+assets/frames/*.webp

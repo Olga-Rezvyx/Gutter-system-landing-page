@@ -1,0 +1,7 @@
+{
+  "frames": 240,
+  "pattern": "f%04d.jpg",
+  "width": 1280,
+  "height": 720,
+  "placeholder": true
+}

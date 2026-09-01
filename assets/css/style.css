@@ -1,0 +1,281 @@
+/* CHEKKER RIMA — водосточные системы, Калининградская область.
+ * Чёрный фон страницы должен совпадать с фоном кадров, иначе у героя появляется край. */
+
+:root {
+  --ink: #000;
+  --paper: #f4f2ee;
+  --text-on-ink: #e8e6e2;
+  --text-on-ink-dim: #8d8a85;
+  --text-on-paper: #16150f;
+  --text-on-paper-dim: #5d5a52;
+  --accent: #c4b08c;
+  --line-on-ink: #262626;
+  --line-on-paper: #d8d4cb;
+  --font: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text-on-ink);
+  font: 400 19px/1.6 var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; line-height: 1.12; margin: 0; }
+
+a { color: inherit; }
+
+.wrap { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+
+.btn {
+  display: inline-block;
+  padding: 17px 34px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  color: #14120d;
+  font: 600 17px/1 var(--font);
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: #d3c0a0; }
+.btn--ghost { background: transparent; color: inherit; border: 1px solid currentColor; }
+.btn--ghost:hover { background: rgba(255,255,255,.08); }
+
+/* ---------- Герой ---------- */
+
+.hero { position: relative; }
+
+.hero__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.hero__canvas { display: block; width: 100%; height: 100%; background: var(--ink); }
+
+/* Подписи живут внутри разборки, а не списком под ней: каждый абзац привязан
+ * к кадрам, на которых его слой отделяется. */
+.hero__notes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.note {
+  position: absolute;
+  right: max(24px, calc(50% - 590px));
+  top: 50%;
+  transform: translateY(-46%);
+  width: 26rem;
+  max-width: calc(100% - 48px);
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.note[data-on] { opacity: 1; }
+
+.note__name { font-size: 46px; font-weight: 600; letter-spacing: -0.025em; }
+.note__body { margin: 14px 0 0; font-size: 20px; color: var(--text-on-ink-dim); }
+.note__spec {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--accent);
+  border-top: 1px solid var(--line-on-ink);
+  padding-top: 12px;
+}
+
+.hero__overlay {
+  transition: opacity .4s ease;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 90px max(24px, calc(50% - 590px)) 54px;
+  background: linear-gradient(to top, rgba(0,0,0,.92) 12%, rgba(0,0,0,0));
+}
+.hero__overlay[data-off] { opacity: 0; pointer-events: none; }
+
+.hero__label {
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-on-ink-dim);
+}
+.hero__line { margin: 14px 0 18px; font-size: clamp(30px, 4.4vw, 56px); max-width: 20ch; }
+.hero__sub { margin: 0 0 26px; max-width: 46ch; color: var(--text-on-ink-dim); }
+.hero__cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.hero__scroll { font-size: 15px; color: var(--text-on-ink-dim); }
+
+/* На узком экране колонка не помещается: подписи уходят вниз, кадр приподнимается. */
+@media (max-width: 1215px) {
+  .note {
+    top: auto;
+    bottom: 26%;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(38rem, calc(100% - 48px));
+    text-align: center;
+  }
+  .note__name { font-size: 34px; }
+  .note__body { font-size: 18px; }
+}
+
+/* ---------- Секции ---------- */
+
+.section { padding: 108px 0; border-top: 1px solid var(--line-on-ink); }
+.section--paper {
+  background: var(--paper);
+  color: var(--text-on-paper);
+  border-top: 0;
+}
+.section--paper .section__lead { color: var(--text-on-paper-dim); }
+
+.section__label {
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-on-ink-dim);
+  margin-bottom: 20px;
+}
+.section--paper .section__label { color: var(--text-on-paper-dim); }
+.section__title { font-size: clamp(28px, 3.4vw, 44px); max-width: 22ch; }
+.section__lead { margin: 20px 0 0; max-width: 62ch; color: var(--text-on-ink-dim); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.reveal[data-seen] { opacity: 1; transform: none; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Считаем честно ---------- */
+
+/* Широкое содержимое прокручивается в своём контейнере, а не тянет за собой body. */
+.scroll-x { overflow-x: auto; margin-top: 44px; -webkit-overflow-scrolling: touch; }
+
+.calc { min-width: 520px; border-collapse: collapse; width: 100%; }
+.calc th, .calc td {
+  text-align: left;
+  padding: 16px 18px 16px 0;
+  border-bottom: 1px solid var(--line-on-paper);
+  font-size: 17px;
+  vertical-align: top;
+}
+.calc th { font-weight: 600; }
+.calc td:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.calc__gap { font-weight: 600; }
+
+.needs-data {
+  background: #ffe9b8;
+  color: #4a3a05;
+  padding: 1px 8px;
+  border-radius: 2px;
+  font-size: 14px;
+  /* Без nowrap: длинная пометка внутри абзаца иначе выталкивает страницу
+     за край экрана на телефоне. */
+}
+
+.footnote { margin-top: 22px; font-size: 15px; color: var(--text-on-paper-dim); max-width: 66ch; }
+
+/* ---------- Квиз ---------- */
+
+.quiz {
+  margin-top: 40px;
+  border: 1px solid var(--line-on-ink);
+  border-radius: 3px;
+  padding: 40px;
+  max-width: 720px;
+  background: #0b0b0b;
+}
+.quiz__progress { display: flex; gap: 6px; margin-bottom: 30px; }
+.quiz__tick { height: 3px; flex: 1; background: var(--line-on-ink); }
+.quiz__tick[data-done] { background: var(--accent); }
+
+.quiz__step[hidden] { display: none; }
+.quiz__q { font-size: 27px; font-weight: 600; letter-spacing: -.02em; }
+.quiz__hint { margin: 12px 0 0; font-size: 16px; color: var(--text-on-ink-dim); }
+.quiz__options { display: grid; gap: 10px; margin: 26px 0 0; }
+
+.quiz__opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 17px 20px;
+  border: 1px solid var(--line-on-ink);
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: 400 18px/1.4 var(--font);
+  cursor: pointer;
+}
+.quiz__opt:hover { border-color: var(--accent); }
+.quiz__opt[aria-pressed="true"] { border-color: var(--accent); background: rgba(196,176,140,.1); }
+
+.quiz__field {
+  width: 100%;
+  padding: 16px 18px;
+  margin-top: 10px;
+  border: 1px solid var(--line-on-ink);
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: 400 18px/1.4 var(--font);
+}
+.quiz__field:focus { outline: none; border-color: var(--accent); }
+
+.quiz__nav { display: flex; gap: 12px; align-items: center; margin-top: 28px; flex-wrap: wrap; }
+.quiz__back {
+  background: none; border: 0; color: var(--text-on-ink-dim);
+  font: 400 16px/1 var(--font); cursor: pointer; padding: 8px 0;
+}
+.quiz__note { margin: 18px 0 0; font-size: 15px; color: var(--text-on-ink-dim); }
+.quiz__summary { margin: 0 0 22px; font-size: 16px; color: var(--text-on-ink-dim); }
+.quiz__summary li { margin-bottom: 4px; }
+.quiz__error { color: #e29494; font-size: 16px; margin: 14px 0 0; }
+
+/* ---------- Доказательство ---------- */
+
+.slots { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 40px; }
+.slot {
+  border: 1px dashed var(--line-on-ink);
+  border-radius: 3px;
+  padding: 26px;
+  color: var(--text-on-ink-dim);
+  font-size: 16px;
+}
+.slot h3 { font-size: 19px; color: var(--text-on-ink); margin-bottom: 10px; }
+
+.steps { counter-reset: step; margin-top: 40px; display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.step { border-top: 1px solid var(--line-on-ink); padding-top: 20px; }
+.step::before {
+  counter-increment: step;
+  content: "0" counter(step);
+  display: block;
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.step h3 { font-size: 20px; margin-bottom: 10px; }
+.step p { margin: 0; font-size: 17px; color: var(--text-on-ink-dim); }
+
+/* ---------- Подвал ---------- */
+
+.footer { padding: 60px 0 80px; border-top: 1px solid var(--line-on-ink); font-size: 15px; color: var(--text-on-ink-dim); }
+.footer p { max-width: 70ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .note { transition: none; }
+}

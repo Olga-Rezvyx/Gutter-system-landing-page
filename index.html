@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHEKKER RIMA — стальные водосточные системы в Калининградской области</title>
+<meta name="description" content="Стальной водосток CHEKKER RIMA: разбор конструкции по слоям, честный расчёт против пластика и смета под ваш дом за один шаг.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ══ Герой: разборка среза кромки жёлоба по слоям ══════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero__sticky">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+
+    <!-- Подписи привязаны к кадрам, на которых их слой отделяется.
+         Границы читаются из разметки, чтобы расписание не разъезжалось с текстом. -->
+    <div class="hero__notes" id="heroNotes">
+      <article class="note" data-from="0.10" data-to="0.18">
+        <div class="note__name">Защитный полимер</div>
+        <p class="note__body">Верхний слой, который принимает на себя ультрафиолет, дождь и соль. Всё, что видно на фасаде, — это он.</p>
+        <p class="note__spec">Толщина и тип покрытия: <span class="needs-data">из спецификации RIMA</span></p>
+      </article>
+
+      <article class="note" data-from="0.18" data-to="0.26">
+        <div class="note__name">Грунт</div>
+        <p class="note__body">Держит полимер на металле. От него зависит, отслоится ли покрытие по кромке через несколько зим.</p>
+      </article>
+
+      <article class="note" data-from="0.26" data-to="0.34">
+        <div class="note__name">Пассивация</div>
+        <p class="note__body">Тонкий химический барьер поверх цинка. Работает там, где покрытие уже повреждено — на срезе, у самореза, на царапине.</p>
+      </article>
+
+      <article class="note" data-from="0.34" data-to="0.42">
+        <div class="note__name">Цинк</div>
+        <p class="note__body">Защищает сталь электрохимически: даже на голой царапине корродирует цинк, а не металл под ним.</p>
+        <p class="note__spec">Масса цинкового слоя: <span class="needs-data">из спецификации RIMA</span></p>
+      </article>
+
+      <article class="note" data-from="0.42" data-to="0.50">
+        <div class="note__name">Сталь</div>
+        <p class="note__body">Основа, которая держит форму. Не размягчается на солнце, не становится хрупкой на морозе и не даёт кронштейну сложиться под мокрым снегом.</p>
+        <p class="note__spec">Толщина стали: <span class="needs-data">из спецификации RIMA</span></p>
+      </article>
+
+      <article class="note" data-from="0.50" data-to="0.58">
+        <div class="note__name">Вот за что переплата</div>
+        <p class="note__body">Пластиковый жёлоб — это один слой. Разница в цене — это разница в количестве слоёв между водой и тем, что должно простоять на фасаде десятилетия.</p>
+      </article>
+    </div>
+
+    <div class="hero__overlay" id="heroOverlay">
+      <div class="hero__label">CHEKKER RIMA · Калининградская область</div>
+      <h1 class="hero__line">Посмотрите, из чего сделан водосток, за который просят в разы больше</h1>
+      <p class="hero__sub">Прокрутите — срез кромки жёлоба разойдётся по слоям. Потом посчитаем, во что это обойдётся на вашем доме.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#raschet">Рассчитать стоимость</a>
+        <span class="hero__scroll">Листайте, чтобы разобрать →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Расчёт: главный узел конверсии ═══════════════════════════════════ -->
+<section class="section" id="raschet">
+  <div class="wrap">
+    <div class="section__label reveal">Расчёт</div>
+    <h2 class="section__title reveal">Четыре вопроса — и смета под ваш дом</h2>
+    <p class="section__lead reveal">Не «от N рублей» без объяснения, а расчёт под вашу крышу: длину свесов, число углов и воронок. Отвечаете на четыре вопроса — мы считаем и присылаем смету, в которой видно каждую позицию.</p>
+
+    <form class="quiz reveal" id="quiz" novalidate>
+      <div class="quiz__progress" id="quizProgress" aria-hidden="true"></div>
+
+      <fieldset class="quiz__step" data-step="0">
+        <legend class="quiz__q">Какой примерно периметр крыши?</legend>
+        <p class="quiz__hint">Если точной цифры нет — берите на глаз, для первой сметы этого хватает.</p>
+        <div class="quiz__options">
+          <button type="button" class="quiz__opt" data-value="до 30 м">до 30 м</button>
+          <button type="button" class="quiz__opt" data-value="30–60 м">30–60 м</button>
+          <button type="button" class="quiz__opt" data-value="60–100 м">60–100 м</button>
+          <button type="button" class="quiz__opt" data-value="больше 100 м">больше 100 м</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="1" hidden>
+        <legend class="quiz__q">Что стоит сейчас?</legend>
+        <div class="quiz__options">
+          <button type="button" class="quiz__opt" data-value="ничего, дом строится">Ничего — дом строится</button>
+          <button type="button" class="quiz__opt" data-value="пластик, надо менять">Пластик, надо менять</button>
+          <button type="button" class="quiz__opt" data-value="металл, надо менять">Металл, надо менять</button>
+          <button type="button" class="quiz__opt" data-value="ещё не решил">Ещё не решил</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="2" hidden>
+        <legend class="quiz__q">Нужен обогрев жёлобов?</legend>
+        <p class="quiz__hint">Греющий кабель против наледи и сосулек. Считается отдельной строкой — её можно убрать.</p>
+        <div class="quiz__options">
+          <button type="button" class="quiz__opt" data-value="да, нужен">Да, нужен</button>
+          <button type="button" class="quiz__opt" data-value="покажите с ним и без">Покажите цену с ним и без</button>
+          <button type="button" class="quiz__opt" data-value="не нужен">Не нужен</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="3" hidden>
+        <legend class="quiz__q">Когда планируете работы?</legend>
+        <div class="quiz__options">
+          <button type="button" class="quiz__opt" data-value="в этом месяце">В этом месяце</button>
+          <button type="button" class="quiz__opt" data-value="в этом сезоне">В этом сезоне</button>
+          <button type="button" class="quiz__opt" data-value="следующей весной">Следующей весной</button>
+          <button type="button" class="quiz__opt" data-value="пока прицениваюсь">Пока прицениваюсь</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="4" hidden>
+        <legend class="quiz__q">Куда прислать смету?</legend>
+        <ul class="quiz__summary" id="quizSummary"></ul>
+        <label>
+          <input class="quiz__field" type="text" name="name" placeholder="Как к вам обращаться" autocomplete="name">
+        </label>
+        <label>
+          <input class="quiz__field" type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required>
+        </label>
+        <p class="quiz__note">Перезвоним, чтобы уточнить пару цифр по крыше, и пришлём смету. Без рассылок.</p>
+        <p class="quiz__error" id="quizError" hidden></p>
+        <div class="quiz__nav">
+          <button type="submit" class="btn">Получить смету</button>
+          <button type="button" class="quiz__back" data-back>Назад</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz__step" data-step="5" hidden>
+        <legend class="quiz__q">Заявка принята</legend>
+        <p class="quiz__hint">Свяжемся в рабочее время. Если удобнее написать — телефон и почта в подвале страницы.</p>
+      </fieldset>
+
+      <div class="quiz__nav" id="quizNav">
+        <button type="button" class="quiz__back" data-back hidden>Назад</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══ Единственный слом подложки: светлая секция ═══════════════════════ -->
+<section class="section section--paper" id="chestno">
+  <div class="wrap">
+    <div class="section__label reveal">Считаем честно</div>
+    <h2 class="section__title reveal">Сталь дороже пластика. Вот насколько и почему</h2>
+    <p class="section__lead reveal">Мы не будем говорить, что стоим столько же. Цены конкурентов ниже — показываем разрыв прямо, вместе с тем, что за ним стоит.</p>
+
+    <!-- Широкая таблица прокручивается внутри себя: горизонтальный скролл
+         страницы на телефоне ломает всё остальное. -->
+    <div class="scroll-x reveal">
+    <table class="calc">
+      <caption class="visually-hidden">Цена жёлоба за погонный метр</caption>
+      <thead>
+        <tr><th>Жёлоб, за 1 погонный метр</th><th>Материал</th><th>Цена</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ТЕХНОНИКОЛЬ «Оптима», 120/80</td><td>ПВХ, бюджетная линейка</td><td>184 ₽</td></tr>
+        <tr><td>ТЕХНОНИКОЛЬ «Стандарт», 125/82</td><td>ПВХ</td><td>240 ₽</td></tr>
+        <tr><td>«Вся Кровля», 125</td><td>сталь, матовое покрытие</td><td>617 ₽</td></tr>
+        <tr><td>Bud-Masz, 125</td><td>сталь, Польша</td><td>898 ₽</td></tr>
+        <tr><td class="calc__gap">CHEKKER RIMA</td><td>сталь с полимерным покрытием</td><td><span class="needs-data">цена из прайса RIMA</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="footnote reveal"><strong>Разрыв со сталью — в 2,6–4,9 раза</strong> в зависимости от того, с какой линейкой ТЕХНОНИКОЛЬ сравнивать: против бюджетной «Оптимы» разница больше, против «Стандарта» меньше. Цены сняты в Калининграде, по жёлобу диаметра 125 мм. Одного усреднённого числа здесь нет намеренно — оно скрыло бы половину картины.</p>
+
+    <p class="footnote reveal"><span class="needs-data">Блок стоимости владения за 15 лет — считается после того, как появится прайс RIMA</span>. Здесь встанет пересчёт разовой переплаты в годы: сколько выходит в год при однократной установке против замены пластиковой системы за тот же срок. Без вашего прайса эти цифры выдумывать нельзя.</p>
+  </div>
+</section>
+
+<!-- ══ Доказательство: только настоящее ═════════════════════════════════ -->
+<section class="section" id="obiekty">
+  <div class="wrap">
+    <div class="section__label reveal">Объекты</div>
+    <h2 class="section__title reveal">Дома в области, где это уже стоит</h2>
+    <p class="section__lead reveal">Слоты ниже заполняются вашими фотографиями с адресами. Сгенерированных объектов здесь не будет: страница про водосток на конкретном доме либо показывает конкретный дом, либо молчит.</p>
+
+    <div class="slots reveal">
+      <div class="slot">
+        <h3>Фотографии объектов</h3>
+        Нужны снимки смонтированных систем с указанием населённого пункта. По 3–5 на объект: общий вид фасада, узел воронки, крепление у карниза.
+      </div>
+      <div class="slot">
+        <h3>Отзывы</h3>
+        Настоящие, с именем и объектом. Пустой блок честнее сочинённого отзыва.
+      </div>
+      <div class="slot">
+        <h3>Цифры о компании</h3>
+        Год начала работы, число смонтированных систем, гарантийный срок. Каждая цифра — только из ваших данных.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Монтаж ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="montazh">
+  <div class="wrap">
+    <div class="section__label reveal">Монтаж</div>
+    <h2 class="section__title reveal">Где водосток обычно ломается — и что мы с этим делаем</h2>
+    <p class="section__lead reveal">Чаще всего виноват не материал, а установка: уклон, стыки и крепёж. Поэтому смета закрывается до начала работ и не растёт по ходу.</p>
+
+    <div class="steps reveal">
+      <div class="step">
+        <h3>Замер на объекте</h3>
+        <p>Длина свесов, углы, число воронок и точки слива. После замера смета фиксируется — доплат сверх неё не появляется.</p>
+      </div>
+      <div class="step">
+        <h3>Уклон и кронштейны</h3>
+        <p>Шаг кронштейнов и уклон жёлоба считаются под площадь кровли, а не ставятся «как обычно». От этого зависит, будет ли перелив в сильный дождь.</p>
+      </div>
+      <div class="step">
+        <h3>Стыки</h3>
+        <p>Соединения с уплотнителем, рассчитанные на температурное расширение металла. Негерметичный стык — вторая по частоте причина протечки после уклона.</p>
+      </div>
+      <div class="step">
+        <h3>Сдача</h3>
+        <p>Пролив системы водой при вас и гарантийные документы на руки.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Честно про море ══════════════════════════════════════════════════ -->
+<section class="section" id="more">
+  <div class="wrap">
+    <div class="section__label reveal">Про балтийский воздух</div>
+    <h2 class="section__title reveal">Соль ускоряет коррозию. Мы скажем это первыми</h2>
+    <p class="section__lead reveal">Глубокая царапина до стали ржавеет на любом металле, а морской воздух с солью этот процесс ускоряет — это правда, и от неё никуда не деться на побережье. Отсюда весь разговор про слои: чем их больше и чем плотнее пассивация, тем дольше повреждённое место остаётся просто повреждённым местом, а не очагом. Что делать при сколе — расскажем при сдаче объекта, это две минуты и обычный ремонтный состав.</p>
+    <p class="section__lead reveal"><a class="btn btn--ghost" href="#raschet">Посчитать под мой дом</a></p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><span class="needs-data">Контакты, реквизиты и юридическое лицо — от заказчика</span></p>
+    <p>Разборка в шапке страницы — трёхмерная визуализация конструкции, а не фотография изделия. Фотографии смонтированных систем — настоящие, в разделе «Объекты».</p>
+  </div>
+</footer>
+
+<script src="assets/js/scroll_frames.js"></script>
+<script src="assets/js/hero.js"></script>
+<script src="assets/js/quiz.js"></script>
+</body>
+</html>

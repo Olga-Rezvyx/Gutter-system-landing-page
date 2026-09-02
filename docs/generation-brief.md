@@ -1,0 +1,133 @@
+# Бриф на генерацию героя: «Слои стали»
+
+Готово к запуску. Как только коннектор Higgsfield включится в чате, это выполняется
+подряд, без новых решений — кроме одного, отмеченного ниже как **нужно подтвердить**.
+
+Основание: `docs/hero-plan.md`, вариант 2.
+
+---
+
+## Что нужно подтвердить перед первым кредитом
+
+**Состав покрытия вашей стали.** Ниже — типовой пирог листа с полимерным покрытием.
+Порядок и количество слоёв уходят прямо в промпт разборки и в подписи на странице,
+поэтому расхождение с вашей спецификацией придётся переснимать за новые кредиты.
+
+| № | Слой | Есть у RIMA? |
+|---|---|---|
+| 1 | Полимерное покрытие (лицевое) | подтвердить |
+| 2 | Грунт | подтвердить |
+| 3 | Пассивация | подтвердить |
+| 4 | Цинк | подтвердить |
+| 5 | Стальная основа | подтвердить |
+| 6 | Цинк (обратная сторона) | подтвердить |
+| 7 | Защитный лак / обратный грунт | подтвердить |
+
+Толщины в подписях на странице пока помечены жёлтым и не выдуманы — их нужно взять
+из вашей спецификации.
+
+## Про исходный кадр
+
+Правило плагина: если товар реальный и его можно купить, базовый снимок должен быть
+вашим. Здесь случай пограничный и в вашу пользу: герой — **схематический срез кромки**,
+а не фотография изделия на продажу. Пирог покрытия — это общая конструкция оцинкованной
+стали с полимером, а не заявление о конкретной модели, поэтому базовый кадр можно
+сгенерировать. Это уже сказано в подвале страницы прямым текстом.
+
+Если у вас есть макроснимок реального среза — он лучше генерации, и тогда шаг 1
+заменяется на `remove_background` вашего файла и композит на чёрный.
+
+---
+
+## Шаг 1 · Собранный срез (`generate_image`, ~2 кредита)
+
+Модель `nano_banana_pro`, 2k, 16:9.
+
+> *"A studio-grade macro photograph of a cross-section through the folded edge of a steel
+> rain gutter, shown at a slight three-quarter angle revealing both the coated face and the
+> cut edge. The laminated layer structure is visible along the cut. Pure black background
+> with zero ambient light bleed, no reflections on the surface, no cast shadow. Fully
+> assembled, layers tight against each other. Shot as if for a high-end print campaign —
+> clinical precision, no stylisation. No text, no labels, no callout lines."*
+
+Три обязательные фразы: **pure black background**, **no ambient light bleed**,
+**no cast shadow**. Без них появляется плоскость пола, и срез начинает стоять в комнате,
+а не висеть в странице.
+
+Смотрю результат. Если пирог не читается — перегенерирую: два кредита дешевле, чем
+сломанный герой, всё дальнейшее наследует эту геометрию.
+
+## Шаг 2 · Разобранный срез (`generate_image`, ~2 кредита)
+
+Шаг 1 идёт в `image_references` — иначе слои не будут узнаваемо тем же срезом.
+
+> *"Using the provided reference: deconstruct the cross-section into a precise exploded-view
+> diagram. Each layer — the outer polymer coating, the primer, the passivation film, the zinc
+> layer, the steel core, the reverse-side zinc, the backing lacquer — floats apart from its
+> assembled position along the perpendicular axis of the sheet, with uniform spacing.
+> Deliberate and symmetrical, like a technical illustration. Pure black background. All
+> layers keep their original finish, colour and thickness ratio. No labels, no lines, no
+> graphic overlays."*
+
+Слои названы поимённо намеренно: «разбери срез» даёт крошево, перечисление даёт
+взрыв-чертёж. **Список слоёв здесь — тот, что подтверждается в таблице выше.**
+
+Подписи не генерятся: их рисует страница, привязывая к кадрам. На кадре они дублировались
+бы и разъезжались при первой правке текста.
+
+## Шаг 3 · Один дубль, оба конца заперты (`generate_video`, 25 кредитов черновик)
+
+```
+model: seedance_2_5      mode: omni_reference      duration: 10 s
+resolution: 480p (черновик) → 1080p (финал, 65 кредитов)
+aspect_ratio: 16:9       generate_audio: false
+start_image: шаг 1 (собрано)     end_image: шаг 2 (разобрано)
+```
+
+`mode: omni_reference` обязателен — на `t2v` вызов отклоняется с 422, потому что
+референсные кадры в этом режиме не принимаются.
+
+Промпт описывает только путь между двумя кадрами, которые у модели уже есть:
+
+> *"The steel cross-section floats in a pure black void, fully assembled, with no
+> environment, no ground plane, no ambient reflections. The camera holds a steady
+> three-quarter angle. The laminated layers begin a seamless separation: each layer lifts
+> away from the core along the perpendicular axis with deliberate, weighted momentum,
+> spacing staying even between them. Slow, cinematic and precise — never chaotic. By the end
+> all layers hang in a balanced exploded arrangement, still against the black void."*
+
+Оба конца заперты, поэтому модель не может придумать прибытие, развернуться на поиски
+предмета или вырастить в кадр лишнее. Швов нет — сегмент один, мерить нечего.
+
+Перед финальным проходом — `get_cost: true`.
+
+## Шаг 4 · Нарезка
+
+```bash
+python3 ~/.claude/plugins/cache/roomwalk/roomwalk/0.21.0/skills/roomwalk/tools/extract_frames.py \
+  hero.mp4 assets/frames --count 240 --width 1280 --quality 0.7
+```
+
+240 кадров — столько же, сколько у нынешних заглушек, поэтому вёрстка, тайминг и привязка
+подписей встают без правок. `assets/frames/` перезаписывается, `manifest.json` обновляется.
+
+## Шаг 5 · Проверить пустоту, но не выравнивать рефлекторно
+
+```bash
+python3 .../tools/brightness_curve.py assets/frames
+```
+
+Средняя яркость на разборке растёт почти всегда, и это правильно: в кадре становится
+больше освещённого металла. Гнать по ней `stabilise_exposure` — значит притушить поздние
+кадры ровно там, где слои и есть весь смысл.
+
+Решает **яркость углов**, а не средняя. Углы стоят на месте — не трогаю. Углы поехали —
+модель переосветила пустоту, тогда `stabilise_exposure` уместен. Замерять именно углы,
+а не рамку по периметру: рамка ловит слой, всплывший к краю, и показывает несуществующий
+подъём чёрного.
+
+## Шаг 6 · Замеры и приёмка
+
+Те же, что уже прогнаны на заглушках: 9–10 px скролла на кадр, отсутствие повторов
+соседних кадров, совпадение чёрного страницы и кадра, отсутствие горизонтального скролла
+на 320/375/414/768/1024.
